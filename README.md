@@ -19,9 +19,11 @@ Fill in the form and submit — the request is visible in DevTools → Network a
 Other scripts:
 
 ```bash
-npm test           # unit tests (Vitest)
-npm run lint       # ESLint (angular-eslint flat config)
-npm run build      # production build
+npm test                    # unit tests (Vitest)
+npm test -- --coverage      # with coverage, enforcing 90/85/90/90 thresholds
+npm run e2e                 # Playwright end-to-end tests (starts the dev server itself)
+npm run lint                # type-checked ESLint + Stylelint
+npm run build               # production build (300 kB initial-bundle budget)
 ```
 
 ## How it works
@@ -42,6 +44,7 @@ src/app/
   shared/ui/               Presentational components: button, alert, page-header, text-field
 src/styles/abstracts/      Design tokens + mixins, importable as @use 'abstracts'
 src/mocks/                 MSW handlers + worker (development only)
+e2e/                       Playwright tests against the real app + MSW
 ```
 
 Routing: `/` redirects to `/signup`, unknown URLs fall back there, and the whole
@@ -75,13 +78,17 @@ signup feature (routes + components + store) is code-split into its own chunk vi
   `disabled`, so it keeps keyboard focus (double-submits are ignored by the store's
   `exhaustMap`); failures show a retryable `role="alert"` banner. The button stays
   enabled while the form is invalid, so keyboard users always get feedback on activation.
-- Colour palette checked against WCAG 2.2 AA (text ≥ 4.5:1, input borders ≥ 3:1).
+- Colour palette checked against WCAG 2.2 AA (text ≥ 4.5:1, input borders ≥ 3:1), in both
+  schemes: a dark palette ships via `prefers-color-scheme`, swapped at the token layer only.
+- The button transition respects `prefers-reduced-motion` (a `motion-safe` mixin).
 - Mobile-first layout using fluid `clamp()` sizing and logical properties; no UI library.
+- Submitted values are normalized: names trimmed (whitespace-only input fails `required`
+  rather than posting), email trimmed and lowercased.
 
 ### Extending with more questions
 
 Adding a question is three additive edits: a field on `SignupData`, a rule in the schema
-in `signup-form.ts`, and an `<app-text-field>` element in the template. A config-driven
+in `signup-form.ts`, and a `<ui-text-field>` element in the template. A config-driven
 dynamic form engine was deliberately left out as over-engineering at this scale — the
 uniform `text-field` component is the extension point.
 
@@ -92,13 +99,16 @@ uniform `text-field` component is the extension point.
 | Signal Forms over typed Reactive Forms | Stable since v22 and the API Angular now positions as current best practice                 | Smaller ecosystem/CVA interop than Reactive Forms |
 | MSW over json-server/interceptor       | Real 200 in the Network tab, one process, reproducible from a clean clone                   | A committed worker script in `public/`            |
 | SignalStore for one form               | Demonstrates the scalable state pattern the brief hints at ("more questions in the future") | Overkill for a single form in isolation           |
-| No router, no UI library               | Single-view app; custom SCSS is lighter and shows the CSS                                   | Re-adding routing is a 5-minute change            |
+| No UI library                          | Custom SCSS on a design-token layer is lighter and shows the CSS                            | Hand-rolled button/field components               |
 
-Stock `ng new` defaults kept: zoneless change detection, OnPush default strategy, strict
-TypeScript, Vitest. CI (GitHub Actions) runs lint, tests, and a production build.
+Zoneless change detection with explicit `OnPush` on every component; strict TypeScript
+with type-checked ESLint rules (`projectService`) and Stylelint on the SCSS.
+
+CI (GitHub Actions) gates on: lint (ESLint + Stylelint), unit tests with enforced
+coverage thresholds (90% statements/functions/lines, 85% branches), a production build
+with a 300 kB initial-bundle budget, and the Playwright e2e suite in a parallel job.
 
 ## With more time
 
-- E2E smoke test (Playwright) of the happy path against the MSW worker.
 - Server-side field errors mapped onto the form (Signal Forms supports this via `submit()`).
-- Visual polish: success animation, dark color scheme via `prefers-color-scheme`.
+- An axe accessibility audit inside the Playwright suite; visual regression snapshots.
