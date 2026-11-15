@@ -50,6 +50,34 @@ describe('SignupPage', () => {
     httpTesting.expectNone('/api/signup');
   });
 
+  it('rejects whitespace-only names instead of submitting them', async () => {
+    fillField('#firstName', '   ');
+    fillField('#lastName', 'Lovelace');
+    fillField('#email', 'ada@example.com');
+    submitForm();
+    await fixture.whenStable();
+
+    expect(element.querySelector('#firstName')?.getAttribute('aria-invalid')).toBe('true');
+    expect(element.textContent).toContain('Enter your first name');
+    httpTesting.expectNone('/api/signup');
+  });
+
+  it('trims and normalizes values before submitting', async () => {
+    fillField('#firstName', '  Ada ');
+    fillField('#lastName', ' Lovelace  ');
+    fillField('#email', '  Ada@Example.COM ');
+    submitForm();
+    await fixture.whenStable();
+
+    const req = httpTesting.expectOne('/api/signup');
+    expect(req.request.body).toEqual({
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      email: 'ada@example.com',
+    });
+    req.flush({ ok: true });
+  });
+
   it('rejects an invalid email address after interaction', async () => {
     fillField('#email', 'not-an-email');
     await fixture.whenStable();

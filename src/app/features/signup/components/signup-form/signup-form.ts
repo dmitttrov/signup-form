@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { email, form, maxLength, required } from '@angular/forms/signals';
 
 import { UiAlert } from '../../../../shared/ui/alert/ui-alert';
@@ -7,6 +7,7 @@ import { TextField } from '../../../../shared/ui/text-field/text-field';
 import { EMPTY_SIGNUP, SignupData } from '../../data/signup.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-signup-form',
   imports: [TextField, UiAlert, UiButton],
   templateUrl: './signup-form.html',
@@ -32,12 +33,19 @@ export class SignupForm {
   protected onSubmit(event: Event): void {
     event.preventDefault();
 
+    this.model.update((value) => ({
+      firstName: value.firstName.trim(),
+      lastName: value.lastName.trim(),
+      email: value.email.trim(),
+    }));
+
     if (this.form().invalid()) {
       this.form().markAsTouched();
       this.form().errorSummary()[0]?.fieldTree().focusBoundControl();
       return;
     }
 
-    this.submitted.emit(this.form().value());
+    const { firstName, lastName, email } = this.form().value();
+    this.submitted.emit({ firstName, lastName, email: email.toLowerCase() });
   }
 }
