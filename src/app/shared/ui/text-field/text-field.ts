@@ -1,11 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 
-/**
- * Presentational wrapper for a single text input: label, control, and an
- * accessible error slot. Keeps every question in the form uniform, so future
- * questions are a single extra element in the form template.
- */
 @Component({
   selector: 'app-text-field',
   imports: [FormField],
@@ -21,7 +16,6 @@ export class TextField {
 
   protected readonly errorId = computed(() => `${this.name()}-error`);
 
-  // Errors are revealed only after the user has interacted with the field.
   protected readonly showErrors = computed(() => {
     const state = this.field()();
     return state.touched() && state.invalid();

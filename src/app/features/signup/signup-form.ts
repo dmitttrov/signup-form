@@ -38,8 +38,6 @@ export class SignupForm {
   });
 
   constructor() {
-    // Replacing the form with the success panel would otherwise drop keyboard
-    // focus to <body> and leave screen readers silent.
     effect(() => {
       if (this.store.isSuccess()) {
         this.focusAfterRender('#signup-success-heading');

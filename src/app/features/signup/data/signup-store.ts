@@ -11,14 +11,9 @@ export type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 interface SignupState {
   status: SubmissionStatus;
-  /** Snapshot of what was actually sent, so the confirmation can't drift from it. */
   submitted: SignupData | null;
 }
 
-/**
- * Owns the submission lifecycle so the form component stays presentational.
- * Provided at component level: its lifetime is tied to the form that uses it.
- */
 export const SignupStore = signalStore(
   withState<SignupState>({ status: 'idle', submitted: null }),
   withComputed(({ status }) => ({
@@ -27,7 +22,6 @@ export const SignupStore = signalStore(
     hasError: computed(() => status() === 'error'),
   })),
   withMethods((store, api = inject(SignupApi)) => ({
-    // exhaustMap ignores re-submissions while a request is in flight.
     submit: rxMethod<SignupData>(
       pipe(
         tap((data) => patchState(store, { status: 'submitting', submitted: data })),

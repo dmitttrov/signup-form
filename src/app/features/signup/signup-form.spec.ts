@@ -82,7 +82,6 @@ describe('SignupForm', () => {
     expect(element.textContent).toContain('ada@example.com');
     expect(element.querySelector('form')).toBeNull();
 
-    // Focus lands on the confirmation heading so keyboard/SR users aren't lost.
     expect(document.activeElement?.id).toBe('signup-success-heading');
   });
 
@@ -94,11 +93,9 @@ describe('SignupForm', () => {
     await fixture.whenStable();
 
     const button = element.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    // aria-disabled (not disabled) so keyboard focus stays on the button.
     expect(button.getAttribute('aria-disabled')).toBe('true');
     expect(button.disabled).toBe(false);
 
-    // Re-submitting while in flight is ignored by the store's exhaustMap.
     submitForm();
     await fixture.whenStable();
 
@@ -119,7 +116,6 @@ describe('SignupForm', () => {
 
     expect(element.querySelector('[role="alert"]')).not.toBeNull();
 
-    // The form is still there with the user's values, so they can retry.
     submitForm();
     await fixture.whenStable();
     httpTesting.expectOne('/api/signup').flush({ ok: true });

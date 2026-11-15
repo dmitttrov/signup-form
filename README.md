@@ -37,6 +37,7 @@ src/app/
       signup-store.ts      NgRx SignalStore owning the submission lifecycle
       signup-api.ts        HttpClient wrapper for POST /api/signup
   shared/ui/text-field/    Reusable labelled input with an accessible error slot
+src/styles/abstracts/      Design tokens + mixins, importable as @use 'abstracts'
 src/mocks/                 MSW handlers + worker (development only)
 ```
 

@@ -1,0 +1,11 @@
+@use './tokens' as t;
+
+@mixin focus-ring {
+  outline: t.$focus-ring-width solid var(--color-primary);
+  outline-offset: t.$focus-ring-offset;
+}
+
+@mixin control {
+  font: inherit;
+  border-radius: t.$radius-sm;
+}
