@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { SignupForm } from './signup-form';
+import { SignupPage } from './signup-page';
 
 export default [
   {
     path: '',
     title: 'Sign up',
-    component: SignupForm,
+    component: SignupPage,
   },
 ] satisfies Routes;

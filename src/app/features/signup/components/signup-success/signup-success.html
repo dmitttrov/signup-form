@@ -1,0 +1,10 @@
+<h2 id="signup-success-heading" class="signup-success__heading" tabindex="-1">
+  You&rsquo;re signed up!
+</h2>
+<p class="signup-success__message">
+  Thanks {{ data().firstName }} &mdash; a confirmation is on its way to
+  <strong>{{ data().email }}</strong>.
+</p>
+<button ui-button variant="secondary" type="button" (click)="restart.emit()">
+  Sign up someone else
+</button>

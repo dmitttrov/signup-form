@@ -1,0 +1,13 @@
+@use 'abstracts' as *;
+
+:host {
+  display: block;
+}
+
+.ui-alert {
+  padding: $space-md $space-lg;
+  border: $border-width solid var(--color-error);
+  border-radius: $radius-sm;
+  background: var(--color-error-tint);
+  color: var(--color-error);
+}

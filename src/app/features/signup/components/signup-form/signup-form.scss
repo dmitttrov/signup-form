@@ -1,0 +1,24 @@
+@use 'abstracts' as *;
+
+:host {
+  display: block;
+}
+
+.signup-form {
+  display: grid;
+  gap: $space-2xs;
+}
+
+ui-alert {
+  margin-block-start: $space-3xs;
+}
+
+[ui-button] {
+  margin-block-start: $space-xs;
+}
+
+.signup-form__privacy {
+  margin-block: $space-xs 0;
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+}

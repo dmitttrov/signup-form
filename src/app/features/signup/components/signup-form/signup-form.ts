@@ -1,29 +1,21 @@
-import {
-  Component,
-  ElementRef,
-  Injector,
-  afterNextRender,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { email, form, maxLength, required } from '@angular/forms/signals';
 
-import { TextField } from '../../shared/ui/text-field/text-field';
-import { SignupStore } from './data/signup-store';
-import { EMPTY_SIGNUP, SignupData } from './data/signup.model';
+import { UiAlert } from '../../../../shared/ui/alert/ui-alert';
+import { UiButton } from '../../../../shared/ui/button/ui-button';
+import { TextField } from '../../../../shared/ui/text-field/text-field';
+import { EMPTY_SIGNUP, SignupData } from '../../data/signup.model';
 
 @Component({
   selector: 'app-signup-form',
-  imports: [TextField],
-  providers: [SignupStore],
+  imports: [TextField, UiAlert, UiButton],
   templateUrl: './signup-form.html',
   styleUrl: './signup-form.scss',
 })
 export class SignupForm {
-  protected readonly store = inject(SignupStore);
-  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly injector = inject(Injector);
+  readonly submitting = input(false);
+  readonly error = input(false);
+  readonly submitted = output<SignupData>();
 
   private readonly model = signal<SignupData>({ ...EMPTY_SIGNUP });
 
@@ -37,14 +29,6 @@ export class SignupForm {
     maxLength(path.email, 254, { message: 'Email must be 254 characters or fewer' });
   });
 
-  constructor() {
-    effect(() => {
-      if (this.store.isSuccess()) {
-        this.focusAfterRender('#signup-success-heading');
-      }
-    });
-  }
-
   protected onSubmit(event: Event): void {
     event.preventDefault();
 
@@ -54,18 +38,6 @@ export class SignupForm {
       return;
     }
 
-    this.store.submit(this.form().value());
-  }
-
-  protected startOver(): void {
-    this.form().reset({ ...EMPTY_SIGNUP });
-    this.store.reset();
-    this.focusAfterRender('#firstName');
-  }
-
-  private focusAfterRender(selector: string): void {
-    afterNextRender(() => this.host.nativeElement.querySelector<HTMLElement>(selector)?.focus(), {
-      injector: this.injector,
-    });
+    this.submitted.emit(this.form().value());
   }
 }

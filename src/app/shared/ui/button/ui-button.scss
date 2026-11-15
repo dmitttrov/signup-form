@@ -1,0 +1,31 @@
+@use 'abstracts' as *;
+
+:host {
+  @include control;
+
+  padding: $space-md $space-lg;
+  font-weight: $font-weight-semibold;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  transition: background-color $duration-fast $ease-standard;
+
+  &:hover:not([aria-disabled='true']) {
+    background: var(--color-primary-hover);
+  }
+
+  &[aria-disabled='true'] {
+    cursor: progress;
+  }
+}
+
+:host(.ui-button--secondary) {
+  background: transparent;
+  color: var(--color-primary);
+  border: $border-width solid currentcolor;
+
+  &:hover:not([aria-disabled='true']) {
+    background: var(--color-primary-tint);
+  }
+}

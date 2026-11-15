@@ -31,12 +31,15 @@ src/app/
   app.routes.ts            Top-level routes; the signup feature is lazy-loaded
   features/signup/
     signup.routes.ts       Feature routes (default export → one lazy chunk)
-    signup-form.ts         Form component: Signal Forms model + validation schema
+    signup-page.ts         Route container: owns the store and composes the UI
+    components/
+      signup-form/         Signal Forms model + validation; emits the payload
+      signup-success/      Confirmation panel; moves focus to its own heading
     data/
       signup.model.ts      SignupData — the single source of truth for what the form captures
       signup-store.ts      NgRx SignalStore owning the submission lifecycle
       signup-api.ts        HttpClient wrapper for POST /api/signup
-  shared/ui/text-field/    Reusable labelled input with an accessible error slot
+  shared/ui/               Presentational components: button, alert, page-header, text-field
 src/styles/abstracts/      Design tokens + mixins, importable as @use 'abstracts'
 src/mocks/                 MSW handlers + worker (development only)
 ```

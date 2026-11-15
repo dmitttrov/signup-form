@@ -2,21 +2,21 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SignupForm } from './signup-form';
+import { SignupPage } from './signup-page';
 
-describe('SignupForm', () => {
-  let fixture: ComponentFixture<SignupForm>;
+describe('SignupPage', () => {
+  let fixture: ComponentFixture<SignupPage>;
   let element: HTMLElement;
   let httpTesting: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignupForm],
+      imports: [SignupPage],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     httpTesting = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(SignupForm);
+    fixture = TestBed.createComponent(SignupPage);
     element = fixture.nativeElement as HTMLElement;
     await fixture.whenStable();
   });

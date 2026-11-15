@@ -1,0 +1,21 @@
+@use 'abstracts' as *;
+
+.signup {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: $page-gutter;
+}
+
+.signup__card {
+  inline-size: min(100%, $card-inline-size);
+  padding: $card-padding;
+  background: var(--color-surface);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+}
+
+app-signup-form,
+app-signup-success {
+  margin-block-start: $space-xl;
+}

@@ -1,0 +1,12 @@
+@use 'abstracts' as *;
+
+.page-header__heading {
+  margin: 0;
+  font-size: $font-size-title;
+  line-height: $line-height-tight;
+}
+
+.page-header__subheading {
+  margin-block: $space-xs 0;
+  color: var(--color-text-muted);
+}

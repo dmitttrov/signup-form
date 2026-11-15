@@ -1,0 +1,18 @@
+@use 'abstracts' as *;
+
+:host {
+  display: grid;
+  gap: $space-md;
+  justify-items: start;
+}
+
+.signup-success__heading {
+  margin: 0;
+  color: var(--color-success);
+  outline: none;
+}
+
+.signup-success__message {
+  margin: 0;
+  overflow-wrap: anywhere;
+}

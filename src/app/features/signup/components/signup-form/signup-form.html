@@ -1,0 +1,33 @@
+<form class="signup-form" (submit)="onSubmit($event)" novalidate>
+  <ui-text-field
+    label="First name"
+    name="firstName"
+    autocomplete="given-name"
+    [field]="form.firstName"
+  />
+  <ui-text-field
+    label="Last name"
+    name="lastName"
+    autocomplete="family-name"
+    [field]="form.lastName"
+  />
+  <ui-text-field
+    label="Email address"
+    name="email"
+    type="email"
+    autocomplete="email"
+    [field]="form.email"
+  />
+
+  @if (error()) {
+    <ui-alert>Something went wrong and your details were not submitted. Please try again.</ui-alert>
+  }
+
+  <button ui-button type="submit" [busy]="submitting()">
+    {{ submitting() ? 'Submitting…' : 'Sign up' }}
+  </button>
+
+  <p class="signup-form__privacy">
+    We&rsquo;ll only use your details to send you product updates. Unsubscribe any time.
+  </p>
+</form>

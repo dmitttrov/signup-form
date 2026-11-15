@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 
 @Component({
-  selector: 'app-text-field',
+  selector: 'ui-text-field',
   imports: [FormField],
   templateUrl: './text-field.html',
   styleUrl: './text-field.scss',

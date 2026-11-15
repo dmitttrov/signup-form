@@ -1,0 +1,18 @@
+<main class="signup">
+  <section class="signup__card">
+    <ui-page-header
+      heading="Stay in the loop"
+      subheading="Sign up and we&rsquo;ll share news about our latest product offerings."
+    />
+
+    @if (store.isSuccess()) {
+      <app-signup-success [data]="store.submitted()!" (restart)="startOver()" />
+    } @else {
+      <app-signup-form
+        [submitting]="store.isSubmitting()"
+        [error]="store.hasError()"
+        (submitted)="store.submit($event)"
+      />
+    }
+  </section>
+</main>
