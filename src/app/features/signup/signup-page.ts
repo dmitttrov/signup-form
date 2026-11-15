@@ -1,4 +1,11 @@
-import { Component, ElementRef, Injector, afterNextRender, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 
 import { PageHeader } from '../../shared/ui/page-header/page-header';
 import { SignupForm } from './components/signup-form/signup-form';
@@ -6,6 +13,7 @@ import { SignupSuccess } from './components/signup-success/signup-success';
 import { SignupStore } from './data/signup-store';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-signup-page',
   imports: [PageHeader, SignupForm, SignupSuccess],
   providers: [SignupStore],

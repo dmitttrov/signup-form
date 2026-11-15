@@ -1,9 +1,18 @@
-import { Component, ElementRef, afterNextRender, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  afterNextRender,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 import { UiButton } from '../../../../shared/ui/button/ui-button';
 import { SignupData } from '../../data/signup.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-signup-success',
   imports: [UiButton],
   templateUrl: './signup-success.html',
