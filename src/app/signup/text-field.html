@@ -1,0 +1,17 @@
+<div class="text-field">
+  <label class="text-field__label" [for]="name()">{{ label() }}</label>
+  <input
+    class="text-field__input"
+    [id]="name()"
+    [type]="type()"
+    [autocomplete]="autocomplete()"
+    [formField]="field()"
+    [attr.aria-invalid]="showErrors() ? 'true' : null"
+    [attr.aria-describedby]="showErrors() ? errorId() : null"
+  />
+  <p class="text-field__error" [id]="errorId()" aria-live="polite">
+    @if (showErrors()) {
+      {{ errorMessage() }}
+    }
+  </p>
+</div>
