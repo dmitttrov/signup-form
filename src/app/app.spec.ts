@@ -17,7 +17,7 @@ describe('App routing', () => {
     const harness = await RouterTestingHarness.create('/');
 
     expect(TestBed.inject(Router).url).toBe('/signup');
-    const page = harness.routeNativeElement as HTMLElement;
+    const page = harness.routeNativeElement!;
     expect(page.querySelector('h1')?.textContent).toContain('Stay in the loop');
   });
 

@@ -113,6 +113,25 @@ describe('SignupPage', () => {
     expect(document.activeElement?.id).toBe('signup-success-heading');
   });
 
+  it('resets to an empty, focused form when signing up someone else', async () => {
+    fillField('#firstName', 'Ada');
+    fillField('#lastName', 'Lovelace');
+    fillField('#email', 'ada@example.com');
+    submitForm();
+    await fixture.whenStable();
+    httpTesting.expectOne('/api/signup').flush({ ok: true });
+    await fixture.whenStable();
+
+    element.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    await fixture.whenStable();
+
+    const firstName = element.querySelector<HTMLInputElement>('#firstName');
+    expect(firstName).not.toBeNull();
+    expect(firstName!.value).toBe('');
+    expect(element.querySelector('#signup-success-heading')).toBeNull();
+    expect(document.activeElement?.id).toBe('firstName');
+  });
+
   it('marks the submit button aria-disabled while the request is in flight', async () => {
     fillField('#firstName', 'Ada');
     fillField('#lastName', 'Lovelace');
