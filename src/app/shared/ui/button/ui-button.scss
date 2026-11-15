@@ -9,7 +9,10 @@
   background: var(--color-primary);
   border: none;
   cursor: pointer;
-  transition: background-color $duration-fast $ease-standard;
+
+  @include motion-safe {
+    transition: background-color $duration-fast $ease-standard;
+  }
 
   &:hover:not([aria-disabled='true']) {
     background: var(--color-primary-hover);

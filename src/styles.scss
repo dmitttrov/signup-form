@@ -17,6 +17,25 @@
   color-scheme: light;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #{$color-bg-dark};
+    --color-surface: #{$color-surface-dark};
+    --color-text: #{$color-text-dark};
+    --color-text-muted: #{$color-text-muted-dark};
+    --color-primary: #{$color-primary-dark};
+    --color-primary-hover: #{$color-primary-hover-dark};
+    --color-primary-tint: #{rgba($color-primary-dark, 0.14)};
+    --color-on-primary: #{$color-on-primary-dark};
+    --color-error: #{$color-error-dark};
+    --color-error-tint: #{rgba($color-error-dark, 0.12)};
+    --color-success: #{$color-success-dark};
+    --color-border: #{$color-border-dark};
+
+    color-scheme: dark;
+  }
+}
+
 *,
 *::before,
 *::after {
