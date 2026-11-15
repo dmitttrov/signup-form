@@ -27,14 +27,22 @@ npm run build      # production build
 ## How it works
 
 ```
-src/app/signup/
-  signup.model.ts    SignupData — the single source of truth for what the form captures
-  signup-form.ts     Form component: Signal Forms model + validation schema
-  text-field.ts      Reusable labelled input with an accessible error slot
-  signup-store.ts    NgRx SignalStore owning the submission lifecycle
-  signup-api.ts      HttpClient wrapper for POST /api/signup
-src/mocks/           MSW handlers + worker (development only)
+src/app/
+  app.routes.ts            Top-level routes; the signup feature is lazy-loaded
+  features/signup/
+    signup.routes.ts       Feature routes (default export → one lazy chunk)
+    signup-form.ts         Form component: Signal Forms model + validation schema
+    data/
+      signup.model.ts      SignupData — the single source of truth for what the form captures
+      signup-store.ts      NgRx SignalStore owning the submission lifecycle
+      signup-api.ts        HttpClient wrapper for POST /api/signup
+  shared/ui/text-field/    Reusable labelled input with an accessible error slot
+src/mocks/                 MSW handlers + worker (development only)
 ```
+
+Routing: `/` redirects to `/signup`, unknown URLs fall back there, and the whole
+signup feature (routes + components + store) is code-split into its own chunk via
+`loadChildren` — the shell bundle contains only the router and the app config.
 
 - **Signal Forms** (stable since Angular v22) define the form: `form()` over a
   `signal<SignupData>` with a schema of `required`/`email`/`maxLength` rules.

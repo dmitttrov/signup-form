@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { email, form, maxLength, required } from '@angular/forms/signals';
 
-import { SignupStore } from './signup-store';
-import { EMPTY_SIGNUP, SignupData } from './signup.model';
-import { TextField } from './text-field';
+import { TextField } from '../../shared/ui/text-field/text-field';
+import { SignupStore } from './data/signup-store';
+import { EMPTY_SIGNUP, SignupData } from './data/signup.model';
 
 @Component({
   selector: 'app-signup-form',
