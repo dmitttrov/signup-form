@@ -46,3 +46,7 @@ Thumbs.db
 
 # Exercise brief (not part of the deliverable)
 docs/code-exercise-brief.pdf
+
+# Playwright
+/test-results/
+/playwright-report/
